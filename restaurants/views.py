@@ -11,6 +11,7 @@ from django.http import HttpResponse
 #function based view
 def home(request):
 
-    #for test response
-    return HttpResponse("hello")
-    # return render(request, "templete", {})
+    bdd = "Vishaka"
+    mdd = "Shyama"
+    cdd = "Krishna"
+    return render(request, "base.html", {"bdd": bdd, "mdd": mdd, "cdd": cdd})

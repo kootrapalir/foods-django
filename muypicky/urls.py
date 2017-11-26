@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     #getting home function to default url from browser
+    #absolute home url 127.0.0.1:8000
     url(r'^$', home),
 ]
