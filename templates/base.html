@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
-	<title>Resturtants</title>
+	<title>{% block head_title %} muypicky.com{% endblock %}</title>
 </head>
 <body>
     <h1> Muy picky </h1>
+    <a href="/">Home</a>
+    <a href="/about">about</a>
+    <a href="/contact">contact</a>
+<div class = "container">
+    {% block content %}
+        This is the content
+    {% endblock content%}
+</div>
 
- <h1>
- 	hello WOrld
- </h1>
- <p>
-     {% if dds|length == 3 %}
-        {% for dd in dds %}
-            {{dd}} didi
-        {% endfor %}
-
-     {% else %}
-        VSK
-     {% endif %}
- </p>
 </body>
 </html>

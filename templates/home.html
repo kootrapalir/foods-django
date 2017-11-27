@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block head_title %} Welcome|{{block.super}} {% endblock %}
+{% block content %}
+{{ block.super }}
+<h1>
+ 	hello WOrld
+ </h1>
+ <p>
+     {% if dds|length == 3 %}
+        {% for dd in dds %}
+            {{dd}} didi
+        {% endfor %}
+
+     {% else %}
+        VSK
+     {% endif %}
+ </p>
+{% endblock %}
