@@ -4,6 +4,7 @@
 
 
 #for simple http response right here and now ue this module
+
 from django.http import HttpResponse
 
 
@@ -47,6 +48,10 @@ from django.views.generic import ListView
 #         return(context)
 from restaurants.models import RestaurantLocation
 
+#q lokups for advanced search
+from django.db.models import Q
+
+
 #
 # def restaurant_listview(request):
 #     template_name = "restaurants/restaurants_list.html"
@@ -60,24 +65,28 @@ from restaurants.models import RestaurantLocation
 
 #these 3 classes for the list i want to generate
 class RestaurantListView(ListView):
-    queryset = RestaurantLocation.objects.all()
-    template_name = "restaurants/restaurants_list.html"
 
-class SearchRestaurantListView(ListView):
+    #no neeed to this templete_name variable if you name your templete name is restaurantlocation_list.html..
+    #ie. modelname_list...
+    # template_name = "restaurants/restaurants_list.html"
 
-    template_name = "restaurants/restaurants_list.html"
-
-    #this fucntion receives the word from url
+    # this fucntion receives the word from url, self.kwargs.get("slug")
     def get_queryset(self):
         slug = self.kwargs.get("slug")
 
-        #if a person has entered a query show according to the query.here by location
+        # if a person has entered a query show according to the query.here by location
         if slug:
-            queryset = RestaurantLocation.objects.filter(location__iexact=slug)
+            queryset = RestaurantLocation.objects.filter(
+                Q(location__iexact=slug) |
+                Q(location__icontains=slug)
+            )
         else:
-            queryset = RestaurantLocation.objects.none()
+            queryset = RestaurantLocation.objects.all()
 
         return queryset
+
+
+
 
 
 
