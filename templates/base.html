@@ -4,9 +4,20 @@
 	<title>Resturtants</title>
 </head>
 <body>
+    <h1> Muy picky </h1>
+
  <h1>
  	hello WOrld
  </h1>
- <p> This is {{ bdd }} {{ mdd }} {{ cdd }}</p>
+ <p>
+     {% if dds|length == 3 %}
+        {% for dd in dds %}
+            {{dd}} didi
+        {% endfor %}
+
+     {% else %}
+        VSK
+     {% endif %}
+ </p>
 </body>
 </html>

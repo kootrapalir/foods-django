@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from restaurants.views import home
+from restaurants.views import home, home2, home3
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -24,4 +24,7 @@ urlpatterns = [
     #getting home function to default url from browser
     #absolute home url 127.0.0.1:8000
     url(r'^$', home),
+    url(r'^home2$', home2),
+    url(r'^home3$', home3),
+
 ]
