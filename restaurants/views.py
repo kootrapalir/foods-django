@@ -101,6 +101,8 @@ class RestaurantDetailView(DetailView):
     #to use links to redirect to resturant link
     def get_object(self, *args, **kwargs):
         rest_id = self.kwargs.get("rest_id")
+
+        #this gets the obj from our database using pk/id primary key...
         obj = get_object_or_404(RestaurantLocation, id=rest_id)  #id or pk
         return obj
 
