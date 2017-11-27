@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from restaurants.views import home, about, contact
+from restaurants.views import home, about, contact, ContactView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,6 +25,8 @@ urlpatterns = [
     #absolute home url 127.0.0.1:8000
     url(r'^$', home),
     url(r'^about$', about),
-    url(r'^contact$', contact),
+
+    # .as_view() helps it runb like function
+    url(r'^contact$', ContactView.as_view()),
 
 ]

@@ -11,6 +11,9 @@ from django.http import HttpResponse
 #creating views
 #function based view
 from django.shortcuts import render
+#added for class based view for impoting
+from django.views import View
+
 
 
 def home(request):
@@ -31,3 +34,23 @@ def contact(request):
 
     context = {}
     return render(request, "contact.html", context)
+
+
+class ContactView(View):
+
+    #this method gets get request and processes it
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, "contact.html", context)
+
+    # #for processing post methind and so on
+    # def post(self, request, *args, **kwargs):
+    #         context = {}
+    #         return render(request, "contact.html", context)
+    #
+    # def put(self, request, *args, **kwargs):
+    #         context = {}
+    #         return render(request, "contact.html", context)
+
+
+
