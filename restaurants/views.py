@@ -11,7 +11,8 @@ from django.http import HttpResponse
 
 #creating views
 #function based view
-from django.shortcuts import render
+#get_boj_404 needed for gettig clicked linkand redirecting
+from django.shortcuts import render, get_object_or_404
 
 
 #added for class based view for impoting
@@ -21,8 +22,8 @@ from django.views import View
 from django.views.generic.base import TemplateView
 
 #to use queryset & listview
-from django.views.generic import ListView
-
+#detail view..for details of list file
+from django.views.generic import ListView, DetailView
 
 #to show values from model
 
@@ -50,6 +51,7 @@ from restaurants.models import RestaurantLocation
 
 #q lokups for advanced search
 from django.db.models import Q
+
 
 
 #
@@ -84,6 +86,23 @@ class RestaurantListView(ListView):
             queryset = RestaurantLocation.objects.all()
 
         return queryset
+
+
+#to display details of each restaurant
+class RestaurantDetailView(DetailView):
+    queryset = RestaurantLocation.objects.all()
+
+    def get_context_data(self, *args, **kwargs):
+        #context getting data that corresponds to the value "pk" it gets from url in kwargs.
+        context = super(RestaurantDetailView, self).get_context_data(*args, **kwargs)
+        print(context)
+        return context
+
+    #to use links to redirect to resturant link
+    def get_object(self, *args, **kwargs):
+        rest_id = self.kwargs.get("rest_id")
+        obj = get_object_or_404(RestaurantLocation, id=rest_id)  #id or pk
+        return obj
 
 
 
