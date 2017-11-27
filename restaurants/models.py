@@ -12,10 +12,18 @@ class RestaurantLocation(models.Model):
     timestamp   = models.DateTimeField(auto_now_add=True)
     updated     = models.DateTimeField(auto_now=True)
 
+    #making slug bull and blank inly here...otherwise create it in start and make it unique=True
+    slug        = models.SlugField(null=True, blank=False)
+
     # my_date_field = models.DateField(auto_now_add=False, auto_now=False)
 
     def __str__(self):
         return(self.name)
+
+    #with this we can sue object.title now
+    @property
+    def title(self):
+        return self.name
 
 
 
