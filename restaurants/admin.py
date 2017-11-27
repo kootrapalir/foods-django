@@ -4,7 +4,7 @@ from django.contrib import admin
 
 
 #to bring the model into admin page for manipulation
-from .models import ResturantLocation
-admin.site.register(ResturantLocation)
+from .models import RestaurantLocation
+admin.site.register(RestaurantLocation)
 
 

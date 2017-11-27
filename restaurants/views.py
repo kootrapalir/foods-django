@@ -20,7 +20,6 @@ from django.views import View
 from django.views.generic.base import TemplateView
 
 #to show values from model
-from .models import ResturantLocation
 
 #
 # #for test of templete view
@@ -42,10 +41,12 @@ from .models import ResturantLocation
 #         context = {"dds": list_}
 #
 #         return(context)
+from restaurants.models import RestaurantLocation
+
 
 def restaurant_listview(request):
     template_name = "restaurants/restaurants_list.html"
-    queryset = ResturantLocation.objects.all()
+    queryset = RestaurantLocation.objects.all()
     context = {
         "object_list": queryset
     }
