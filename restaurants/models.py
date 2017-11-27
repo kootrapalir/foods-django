@@ -14,6 +14,9 @@ class ResturantLocation(models.Model):
 
     # my_date_field = models.DateField(auto_now_add=False, auto_now=False)
 
+    def __str__(self):
+        return(self.name)
+
 
 
 
