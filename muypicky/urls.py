@@ -23,7 +23,11 @@ from django.views.generic.base import TemplateView
 
 
 #going to display models values in html page
-from restaurants.views import restaurant_listview
+#also importing many types of queryset made in diff classed
+from restaurants.views import (
+    RestaurantListView,
+    SearchRestaurantListView,
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -35,7 +39,11 @@ urlpatterns = [
     #if you have context run it like this. callign class from view and defining templete name there
     # url(r'^$', HomeView.as_view()),
 
-    url(r'^restaurants/$', restaurant_listview),
+
+    url(r'^restaurants/$', RestaurantListView.as_view()),
+    #makinglist dynamic with REGX
+    #here the slug is transferred to SearchResturantlistview
+    url(r'^restaurants/(?P<slug>\w+)/$', SearchRestaurantListView.as_view()),
 
     #if you dont have context but only html to send
     #in templete name send html file to render

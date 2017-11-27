@@ -19,6 +19,10 @@ from django.views import View
 #templete view
 from django.views.generic.base import TemplateView
 
+#to use queryset & listview
+from django.views.generic import ListView
+
+
 #to show values from model
 
 #
@@ -43,15 +47,38 @@ from django.views.generic.base import TemplateView
 #         return(context)
 from restaurants.models import RestaurantLocation
 
+#
+# def restaurant_listview(request):
+#     template_name = "restaurants/restaurants_list.html"
+#     queryset = RestaurantLocation.objects.all()
+#     context = {
+#         "object_list": queryset
+#     }
+#
+#     return render(request, template_name, context)
 
-def restaurant_listview(request):
-    template_name = "restaurants/restaurants_list.html"
+
+#these 3 classes for the list i want to generate
+class RestaurantListView(ListView):
     queryset = RestaurantLocation.objects.all()
-    context = {
-        "object_list": queryset
-    }
+    template_name = "restaurants/restaurants_list.html"
 
-    return render(request, template_name, context)
+class SearchRestaurantListView(ListView):
+
+    template_name = "restaurants/restaurants_list.html"
+
+    #this fucntion receives the word from url
+    def get_queryset(self):
+        slug = self.kwargs.get("slug")
+
+        #if a person has entered a query show according to the query.here by location
+        if slug:
+            queryset = RestaurantLocation.objects.filter(location__iexact=slug)
+        else:
+            queryset = RestaurantLocation.objects.none()
+
+        return queryset
+
 
 
 
