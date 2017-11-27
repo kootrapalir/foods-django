@@ -16,17 +16,23 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from restaurants.views import home, about, contact, ContactView
+#to render html without going to views if you dint have any context to sedn
+from django.views.generic.base import TemplateView
+
+from restaurants.views import HomeView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     #getting home function to default url from browser
     #absolute home url 127.0.0.1:8000
-    url(r'^$', home),
-    url(r'^about$', about),
+    # .as_view() helps it run like function
 
-    # .as_view() helps it runb like function
-    url(r'^contact$', ContactView.as_view()),
+    #if you have context run it like this. callign class from view and defining templete name there
+    url(r'^$', HomeView.as_view()),
 
+    #if you dont have context but only html to send
+    #in templete anme send html file to render
+    url(r'^about$', TemplateView.as_view(template_name = "about.html")),
+    url(r'^contact$', TemplateView.as_view(template_name = "contact.html")),
 ]

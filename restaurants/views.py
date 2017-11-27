@@ -11,46 +11,43 @@ from django.http import HttpResponse
 #creating views
 #function based view
 from django.shortcuts import render
+
+
 #added for class based view for impoting
 from django.views import View
 
+#templete view
+from django.views.generic.base import TemplateView
 
 
-def home(request):
+#for test of templete view
 
-    bdd = "Vishaka"
-    mdd = "Shyama"
-    cdd = "Krishna"
-    list_ = [bdd, mdd, cdd]
-    context = {"dds": list_}
-    return render(request, "home.html", context)
+class HomeView(TemplateView):
+    template_name = "home.html"
 
-def about(request):
+    #predefind function to override GET request
+    def get_context_data(self, *args, **kwargs):
+        #for getting ocntext
+        #all super methond and put fail safe as .get_context_data
+        #define context = {} later with data
+        context = super(HomeView, self).get_context_data(*args, **kwargs)
 
-    context = {}
-    return render(request, "about.html", context)
+        bdd = "Vishaka"
+        mdd = "Shyama"
+        cdd = "Krishna"
+        list_ = [bdd, mdd, cdd]
+        context = {"dds": list_}
 
-def contact(request):
-
-    context = {}
-    return render(request, "contact.html", context)
+        return(context)
 
 
-class ContactView(View):
 
-    #this method gets get request and processes it
-    def get(self, request, *args, **kwargs):
-        context = {}
-        return render(request, "contact.html", context)
 
-    # #for processing post methind and so on
-    # def post(self, request, *args, **kwargs):
-    #         context = {}
-    #         return render(request, "contact.html", context)
-    #
-    # def put(self, request, *args, **kwargs):
-    #         context = {}
-    #         return render(request, "contact.html", context)
 
+class ContactView(TemplateView):
+    template_name = "contact.html"
+
+class AboutView(TemplateView):
+    template_name = "about.html"
 
 
