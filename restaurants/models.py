@@ -16,7 +16,7 @@ class RestaurantLocation(models.Model):
     #if auto_now and auto_now_add is true you cant edit tiome in database
     # but its added automatically
     timestamp   = models.DateTimeField(auto_now_add=True)
-     updated     = models.DateTimeField(auto_now=True)
+    updated     = models.DateTimeField(auto_now=True)
 
     #making slug bull and blank inly here...otherwise create it in start and make it unique=True
     slug        = models.SlugField(null=True, blank=True)

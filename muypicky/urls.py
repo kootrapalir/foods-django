@@ -43,7 +43,7 @@ urlpatterns = [
     # url(r'^restaurants/(?P<slug>\w+)/$', RestaurantListView.as_view()),
 
     #for details when you click in each restaurant
-    url(r'^restaurants/(?P<rest_id>\w+)/$', RestaurantDetailView.as_view()),
+    url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view()),
 
 
 
