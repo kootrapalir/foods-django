@@ -24,7 +24,12 @@ from django.views.generic.base import TemplateView
 
 #going to display models values in html page
 #also importing many types of queryset made in diff classed
-from restaurants.views import RestaurantListView, RestaurantDetailView
+#restaurant_createview for form
+from restaurants.views import(
+    RestaurantListView,
+    RestaurantDetailView,
+    restaurant_createview
+)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -42,9 +47,13 @@ urlpatterns = [
     #here the slug is transferred to SearchResturantlistview
     # url(r'^restaurants/(?P<slug>\w+)/$', RestaurantListView.as_view()),
 
+
+    # url that sendds to form page
+    url(r'^restaurants/create/$', restaurant_createview),
+
+
     #for details when you click in each restaurant
     url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view()),
-
 
 
     #if you dont have context but only html to send

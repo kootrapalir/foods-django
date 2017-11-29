@@ -5,9 +5,7 @@
 
 #for simple http response right here and now ue this module
 
-from django.http import HttpResponse
-
-
+from django.http import HttpResponse, HttpResponseRedirect
 
 #creating views
 #function based view
@@ -51,6 +49,39 @@ from restaurants.models import RestaurantLocation
 
 #q lokups for advanced search
 from django.db.models import Q
+
+
+#to use form to take user input
+from .forms import RestaurantCreateForm
+
+def  restaurant_createview(request):
+    #GET and POST according to what method is in you  html form ..default is get
+    #with POST with {% csrf_token %} to make it secure
+    #the data of form is with request.GET/POST as dictionary file
+    #
+    # if request.method == "GET":
+    #     print("get data")
+    #     print(request.GET)
+    if request.method == "POST":
+        title = request.POST.get("title")
+        location = request.POST.get("location")
+        category = request.POST.get("category")
+        obj = RestaurantLocation.objects.create(
+            name =  title,
+            location  = location,
+            category = category
+        )
+        #AFTER save sending to resturants list page
+        return HttpResponseRedirect("/restaurants/")
+
+    template_name = ("restaurants/form.html")
+    context = {
+
+    }
+
+    return render(request, template_name, context)
+
+
 
 
 
