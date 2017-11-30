@@ -58,25 +58,42 @@ def  restaurant_createview(request):
     #GET and POST according to what method is in you  html form ..default is get
     #with POST with {% csrf_token %} to make it secure
     #the data of form is with request.GET/POST as dictionary file
-    #
+
+
+    #instantate the from method to pass in templete to vreate from usnig variables in form.py
+    form = RestaurantCreateForm()
+    errors = None
     # if request.method == "GET":
     #     print("get data")
     #     print(request.GET)
     if request.method == "POST":
-        title = request.POST.get("title")
-        location = request.POST.get("location")
-        category = request.POST.get("category")
-        obj = RestaurantLocation.objects.create(
-            name =  title,
-            location  = location,
-            category = category
-        )
-        #AFTER save sending to resturants list page
-        return HttpResponseRedirect("/restaurants/")
+        #this is taking data from htm lform directly..titally unsafe
+        # title = request.POST.get("title")
+        # location = request.POST.get("location")
+        # category = request.POST.get("category")
+
+        #now using form.py module we verufy and clean the data...SAFE
+        form = RestaurantCreateForm(request.POST)
+
+        #def clean_name() is checked in models class
+        if form.is_valid():
+            obj = RestaurantLocation.objects.create(
+                name =  form.cleaned_data.get("name"),
+                location  = form.cleaned_data.get("location"),
+                category = form.cleaned_data.get("category")
+            )
+
+            # AFTER save sending to resturants list page
+            return HttpResponseRedirect("/restaurants/")
+
+        #if data on form not valid
+        if form.errors:
+            errors = form.errors
 
     template_name = ("restaurants/form.html")
     context = {
-
+        "form": form,
+        "errors": errors,
     }
 
     return render(request, template_name, context)
