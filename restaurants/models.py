@@ -6,13 +6,16 @@ from django.db.models.signals import pre_save, post_save
 #with help of post-save and pre_save we generetare slug now
 from .utils import unique_slug_generator
 
+#good way of validation
+from .validators import validate_category
+
 # Create your models here.
 #models are for remembering things using database
 #creating type of values we need to store in database
 class RestaurantLocation(models.Model):
     name        = models.CharField(max_length=120)
     location    = models.CharField(max_length=120, null=True, blank=False)
-    category    = models.CharField(max_length=120, null=True, blank=True)
+    category    = models.CharField(max_length=120, null=True, blank=True, validators = [validate_category])
     #if auto_now and auto_now_add is true you cant edit tiome in database
     # but its added automatically
     timestamp   = models.DateTimeField(auto_now_add=True)
@@ -36,6 +39,9 @@ class RestaurantLocation(models.Model):
 #but prefer to do it in during save as its safe
 #function to do during save
 def rl_pre_save_receiver(sender, instance, *args, **kwargs):
+
+    #validation of data
+    instance.category = instance.category.capitalize()
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
