@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 
 #to use queryset & listview
 #detail view..for details of list file
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 #to show values from model
 
@@ -52,7 +52,7 @@ from django.db.models import Q
 
 
 #to use form to take user input
-from .forms import RestaurantCreateForm
+from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 
 def  restaurant_createview(request):
     #GET and POST according to what method is in you  html form ..default is get
@@ -61,7 +61,7 @@ def  restaurant_createview(request):
 
 
     #instantate the from method to pass in templete to vreate from usnig variables in form.py
-    form = RestaurantCreateForm()
+    form = RestaurantLocationCreateForm()
     errors = None
     # if request.method == "GET":
     #     print("get data")
@@ -73,15 +73,16 @@ def  restaurant_createview(request):
         # category = request.POST.get("category")
 
         #now using form.py module we verufy and clean the data...SAFE
-        form = RestaurantCreateForm(request.POST)
+        form = RestaurantLocationCreateForm(request.POST)
 
         #def clean_name() is checked in models class
         if form.is_valid():
-            obj = RestaurantLocation.objects.create(
-                name =  form.cleaned_data.get("name"),
-                location  = form.cleaned_data.get("location"),
-                category = form.cleaned_data.get("category")
-            )
+            form.save()
+            # obj = RestaurantLocation.objects.create(
+            #     name =  form.cleaned_data.get("name"),
+            #     location  = form.cleaned_data.get("location"),
+            #     category = form.cleaned_data.get("category")
+            # )
 
             # AFTER save sending to resturants list page
             return HttpResponseRedirect("/restaurants/")
@@ -148,7 +149,10 @@ class RestaurantDetailView(DetailView):
     #     obj = get_object_or_404(RestaurantLocation, id=rest_id)  #id or pk
     #     return obj
 
-
+class RestaurantCreateView(CreateView):
+    form_class = RestaurantLocationCreateForm
+    template_name = "restaurants/form.html"
+    success_url = "/restaurants/"
 
 
 

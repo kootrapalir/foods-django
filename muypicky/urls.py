@@ -28,7 +28,7 @@ from django.views.generic.base import TemplateView
 from restaurants.views import(
     RestaurantListView,
     RestaurantDetailView,
-    restaurant_createview
+    RestaurantCreateView
 )
 
 urlpatterns = [
@@ -49,7 +49,7 @@ urlpatterns = [
 
 
     # url that sendds to form page
-    url(r'^restaurants/create/$', restaurant_createview),
+    url(r'^restaurants/create/$', RestaurantCreateView.as_view()),
 
 
     #for details when you click in each restaurant

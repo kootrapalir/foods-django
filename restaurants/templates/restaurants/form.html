@@ -7,8 +7,8 @@
 <h1>Add Restaurants </h1>
 <h5>This is the form to fill in the restaurant name</h5><br>
 
-{% if errors %}
-    {{ errors }}
+{% if form.errors %}
+    {{ form.errors }}
 {% endif %}
 
 <form method="POST"> {% csrf_token %}
