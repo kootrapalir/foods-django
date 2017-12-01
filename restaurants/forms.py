@@ -30,7 +30,8 @@ class RestaurantLocationCreateForm(forms.ModelForm):
         fields = [
             "name",
             "location",
-            "category"
+            "category",
+            "slug"
         ]
 
     def clean_name(self):
@@ -38,6 +39,12 @@ class RestaurantLocationCreateForm(forms.ModelForm):
         if name == "Hello":
             raise forms.ValidationError("not valid name")
         return name
+
+    # def __init__(self, user=None, *args, **kwargs):
+    #     # print(kwargs.pop('instance'))
+    #     super(RestaurantLocationCreateForm, self).__init__(*args, **kwargs)
+    #     #to get items from only 1 user who added restaurants
+    #     self.fields['restaurant'].queryset = RestaurantLocation.objects.filter(owner=user)
 
     #sample of simple way of making validation
     # def clean_email(self):

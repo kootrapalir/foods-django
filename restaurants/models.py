@@ -25,7 +25,7 @@ User = settings.AUTH_USER_MODEL
 from django.core.urlresolvers import reverse
 class RestaurantLocation(models.Model):
     #adding users for data owning
-    owner        = models.ForeignKey(User)
+    owner       = models.ForeignKey(User)
     name        = models.CharField(max_length=120)
     location    = models.CharField(max_length=120, null=True, blank=False)
     category    = models.CharField(max_length=120, null=True, blank=True, validators = [validate_category])

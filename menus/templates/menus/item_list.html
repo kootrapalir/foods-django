@@ -5,7 +5,7 @@
 {% block content %}
 <h1>
     Menu Items
-</h1>
+ <small><a href="{% url 'menus:create' %}">ADD</a></small></h1>
 
 <ul>
     {% for obj in object_list %}
@@ -29,6 +29,9 @@
             </ul>
             {% endif %}
         </li>
+    {% empty %}
+    <li><a href="{% url 'menus:create' %}">ADD Menu item</a></li>
+
     {% endfor %}
 </ul>
 

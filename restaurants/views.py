@@ -21,7 +21,7 @@ from django.views.generic.base import TemplateView
 
 #to use queryset & listview
 #detail view..for details of list file
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 #to show values from model
 
@@ -59,62 +59,62 @@ from django.contrib.auth.decorators import login_required
 # for class based view
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-
-@login_required(login_url = "/login/")
-def  restaurant_createview(request):
-    #GET and POST according to what method is in you  html form ..default is get
-    #with POST with {% csrf_token %} to make it secure
-    #the data of form is with request.GET/POST as dictionary file
-
-
-    #instantate the from method to pass in templete to vreate from usnig variables in form.py
-    form = RestaurantLocationCreateForm()
-    errors = None
-    # if request.method == "GET":
-    #     print("get data")
-    #     print(request.GET)
-    if request.method == "POST":
-        #this is taking data from htm lform directly..titally unsafe
-        # title = request.POST.get("title")
-        # location = request.POST.get("location")
-        # category = request.POST.get("category")
-
-        #now using form.py module we verufy and clean the data...SAFE
-        form = RestaurantLocationCreateForm(request.POST)
-
-        #def clean_name() is checked in models class
-        if form.is_valid():
-
-            #for user authentication
-            if request.user.is_authenticated():
-                instance = form.save(commit = False)
-                instance.owner = request.user
-
-                instance.save()
-                # obj = RestaurantLocation.objects.create(
-                #     name =  form.cleaned_data.get("name"),
-                #     location  = form.cleaned_data.get("location"),
-                #     category = form.cleaned_data.get("category")
-                # )
-
-                # AFTER save sending to resturants list page
-                return HttpResponseRedirect("/restaurants/")
-            else:
-                return HttpResponseRedirect("/login/")
-
-        #if data on form not valid
-        if form.errors:
-            errors = form.errors
-
-    template_name = ("restaurants/form.html")
-    context = {
-        "form": form,
-        "errors": errors,
-    }
-
-    return render(request, template_name, context)
-
-
+#
+# @login_required(login_url = "/login/")
+# def  restaurant_createview(request):
+#     #GET and POST according to what method is in you  html form ..default is get
+#     #with POST with {% csrf_token %} to make it secure
+#     #the data of form is with request.GET/POST as dictionary file
+#
+#
+#     #instantate the from method to pass in templete to vreate from usnig variables in form.py
+#     form = RestaurantLocationCreateForm()
+#     errors = None
+#     # if request.method == "GET":
+#     #     print("get data")
+#     #     print(request.GET)
+#     if request.method == "POST":
+#         #this is taking data from htm lform directly..titally unsafe
+#         # title = request.POST.get("title")
+#         # location = request.POST.get("location")
+#         # category = request.POST.get("category")
+#
+#         #now using form.py module we verufy and clean the data...SAFE
+#         form = RestaurantLocationCreateForm(request.POST)
+#
+#         #def clean_name() is checked in models class
+#         if form.is_valid():
+#
+#             #for user authentication
+#             if request.user.is_authenticated():
+#                 instance = form.save(commit = False)
+#                 instance.owner = request.user
+#
+#                 instance.save()
+#                 # obj = RestaurantLocation.objects.create(
+#                 #     name =  form.cleaned_data.get("name"),
+#                 #     location  = form.cleaned_data.get("location"),
+#                 #     category = form.cleaned_data.get("category")
+#                 # )
+#
+#                 # AFTER save sending to resturants list page
+#                 return HttpResponseRedirect("/restaurants/")
+#             else:
+#                 return HttpResponseRedirect("/login/")
+#
+#         #if data on form not valid
+#         if form.errors:
+#             errors = form.errors
+#
+#     template_name = ("restaurants/form.html")
+#     context = {
+#         "form": form,
+#         "errors": errors,
+#     }
+#
+#     return render(request, template_name, context)
+#
+#
 
 
 
@@ -130,7 +130,7 @@ def  restaurant_createview(request):
 
 
 #these 3 classes for the list i want to generate
-class RestaurantListView(ListView):
+class RestaurantListView(LoginRequiredMixin, ListView):
 
     #no neeed to this templete_name variable if you name your templete name is restaurantlocation_list.html..
     #ie. modelname_list...
@@ -138,23 +138,25 @@ class RestaurantListView(ListView):
 
     # this fucntion receives the word from url, self.kwargs.get("slug")
     def get_queryset(self):
-        slug = self.kwargs.get("slug")
-
-        # if a person has entered a query show according to the query.here by location
-        if slug:
-            queryset = RestaurantLocation.objects.filter(
-                Q(location__iexact=slug) |
-                Q(location__icontains=slug)
-            )
-        else:
-            queryset = RestaurantLocation.objects.all()
-
-        return queryset
+        return RestaurantLocation.objects.filter(owner = self.request.user)
+        # slug = self.kwargs.get("slug")
+        #
+        # # if a person has entered a query show according to the query.here by location
+        # if slug:
+        #     queryset = RestaurantLocation.objects.filter(
+        #         Q(location__iexact=slug) |
+        #         Q(location__icontains=slug)
+        #     )
+        # else:
+        #     queryset = RestaurantLocation.objects.all()
+        #
+        # return queryset
 
 
 #to display details of each restaurant
-class RestaurantDetailView(DetailView):
-    queryset = RestaurantLocation.objects.all()
+class RestaurantDetailView(LoginRequiredMixin, DetailView):
+    def get_queryset(self):
+        return RestaurantLocation.objects.filter(owner = self.request.user)
 
     # #to use links to redirect to resturant link
     # def get_object(self, *args, **kwargs):
@@ -168,8 +170,8 @@ class RestaurantDetailView(DetailView):
 #login mixin for user authencation
 class RestaurantCreateView(LoginRequiredMixin, CreateView):
     form_class = RestaurantLocationCreateForm
-    template_name = "restaurants/form.html"
-    success_url = "/restaurants/"
+    template_name = "form.html"
+    # success_url = "/restaurants/"
     login_url = "/login/"
 
     #Createview auto run this method
@@ -178,4 +180,25 @@ class RestaurantCreateView(LoginRequiredMixin, CreateView):
         instance = form.save(commit=False)
         instance.owner = self.request.user
         return super(RestaurantCreateView, self).form_valid(form)
+
+    def get_context_data(self,*args, **kwargs):
+        context = super(RestaurantCreateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Add Restaurant'
+        return context
+
+class RestaurantUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = RestaurantLocationCreateForm
+    template_name = "restaurants/detail-update.html"
+    # success_url = "/restaurants/"
+    login_url = "/login/"
+
+    def get_queryset(self):
+        return RestaurantLocation.objects.filter(owner = self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(RestaurantUpdateView, self).get_context_data(*args, **kwargs)
+        name = self.get_object().name
+        context['title'] = f'Update Restaurant:{name}'
+        return context
+
 

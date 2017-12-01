@@ -25,12 +25,12 @@ from django.views.generic.base import TemplateView
 #going to display models values in html page
 #also importing many types of queryset made in diff classed
 #restaurant_createview for form
-from restaurants.views import(
-    restaurant_createview,
-    RestaurantListView,
-    RestaurantDetailView,
-    RestaurantCreateView
-)
+# from restaurants.views import(
+#     restaurant_createview,
+#     RestaurantListView,
+#     RestaurantDetailView,
+#     RestaurantCreateView
+# )
 
 
 #default login view

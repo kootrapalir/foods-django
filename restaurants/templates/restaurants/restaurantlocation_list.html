@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>
-    Resturant list
+    My Resturants <small><a href='{% url "restaurants:create" %}'> Add </a> </small>
 </h1>
 
 <ul>
@@ -12,6 +12,8 @@
         <li><a href="{{ obj.get_absolute_url }}">{{ obj }}</a> <br/>
             {{obj.name}}-{{obj.location}}-{{obj.category}}-{{obj.timestamp}}-{{obj.updated}}
         </li>
+    {% empty %}}
+    <li><a href='{% url "restaurants:create" %}'> Add One </a></li>
     {% endfor %}
 </ul>
 

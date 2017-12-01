@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block head_title %} Add restaurant|{{ block.super }} {% endblock %}
+{% block head_title %} {{ title }}|{{ block.super }} {% endblock %}
 
 {% block content %}
 
-<h1>Add Restaurants </h1>
+<h1>{{ title }} </h1>
 <h5>This is the form to fill in the restaurant name</h5><br>
 
 <!--filed errors check by django    -->
