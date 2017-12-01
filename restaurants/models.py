@@ -45,7 +45,7 @@ class RestaurantLocation(models.Model):
     #reverse url patter
     def get_absolute_url(self):
         # return f"/restaurants/{self.slug}"#bad way can be useless if url changed in urls.py
-        return reverse("restaurant-detail", kwargs={"slug": self.slug})
+        return reverse("restaurants:detail", kwargs={"slug": self.slug})
 
     #with this we can sue object.title now
     @property

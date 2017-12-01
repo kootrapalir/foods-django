@@ -36,6 +36,9 @@ from restaurants.views import(
 #default login view
 from django.contrib.auth.views import LoginView
 
+#to bring urls from restaurants.url to here
+from django.conf.urls import include
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
@@ -50,20 +53,23 @@ urlpatterns = [
     #if you have context run it like this. callign class from view and defining templete name there
     # url(r'^$', HomeView.as_view()),
 
+    #to send to restaurants.url and let restaurants.url handel it from there for restaurants/url views
+    url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
 
-    url(r'^restaurants/$', RestaurantListView.as_view(), name='restaurants'),
-    #makinglist dynamic with REGX
-    #here the slug is transferred to SearchResturantlistview
+    #
+    # # url(r'^restaurants/$', RestaurantListView.as_view(), name='restaurants'),
+    # #makinglist dynamic with REGX
+    # #here the slug is transferred to SearchResturantlistview
     # url(r'^restaurants/(?P<slug>\w+)/$', RestaurantListView.as_view()),
-
-
-    # url that sendds to form page
-    url(r'^restaurants/create/$', RestaurantCreateView.as_view(), name='restaurants-create'),
-
-
-    #for details when you click in each restaurant
-    url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view(), name='restaurant-detail'),
-
+    #
+    #
+    # # url that sendds to form page
+    # url(r'^restaurants/create/$', RestaurantCreateView.as_view(), name='restaurants-create'),
+    #
+    #
+    # #for details when you click in each restaurant
+    # url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view(), name='restaurant-detail'),
+    #
 
     #if you dont have context but only html to send
     #in templete name send html file to render
