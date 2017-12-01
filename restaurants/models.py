@@ -12,7 +12,15 @@ from .validators import validate_category
 # Create your models here.
 #models are for remembering things using database
 #creating type of values we need to store in database
+
+#for user model for making login
+from django.conf import settings
+#default user model
+#too many thigs with suer model..research more
+User = settings.AUTH_USER_MODEL
 class RestaurantLocation(models.Model):
+    #adding users for data owning
+    owner        = models.ForeignKey(User)
     name        = models.CharField(max_length=120)
     location    = models.CharField(max_length=120, null=True, blank=False)
     category    = models.CharField(max_length=120, null=True, blank=True, validators = [validate_category])

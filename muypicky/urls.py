@@ -26,6 +26,7 @@ from django.views.generic.base import TemplateView
 #also importing many types of queryset made in diff classed
 #restaurant_createview for form
 from restaurants.views import(
+    restaurant_createview,
     RestaurantListView,
     RestaurantDetailView,
     RestaurantCreateView

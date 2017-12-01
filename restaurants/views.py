@@ -77,15 +77,23 @@ def  restaurant_createview(request):
 
         #def clean_name() is checked in models class
         if form.is_valid():
-            form.save()
-            # obj = RestaurantLocation.objects.create(
-            #     name =  form.cleaned_data.get("name"),
-            #     location  = form.cleaned_data.get("location"),
-            #     category = form.cleaned_data.get("category")
-            # )
 
-            # AFTER save sending to resturants list page
-            return HttpResponseRedirect("/restaurants/")
+            #for user authentication
+            if request.user.is_authenticated():
+                instance = form.save(commit = False)
+                instance.owner = request.user
+
+                instance.save()
+                # obj = RestaurantLocation.objects.create(
+                #     name =  form.cleaned_data.get("name"),
+                #     location  = form.cleaned_data.get("location"),
+                #     category = form.cleaned_data.get("category")
+                # )
+
+                # AFTER save sending to resturants list page
+                return HttpResponseRedirect("/restaurants/")
+            else:
+                return HttpResponseRedirect("/login/")
 
         #if data on form not valid
         if form.errors:
@@ -154,7 +162,10 @@ class RestaurantCreateView(CreateView):
     template_name = "restaurants/form.html"
     success_url = "/restaurants/"
 
-
-
-
+    #Createview auto run this method
+    #form_valid is being overwritten...the default one autosaves the instance of the form..so we dont have to in here
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.owner = self.request.user
+        return super(RestaurantCreateView, self).form_valid(form)
 
