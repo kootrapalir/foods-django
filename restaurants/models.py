@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models.signals import pre_save, post_save
 
 #with help of post-save and pre_save we generetare slug now
+
 from .utils import unique_slug_generator
 
 #good way of validation
@@ -18,6 +19,10 @@ from django.conf import settings
 #default user model
 #too many thigs with suer model..research more
 User = settings.AUTH_USER_MODEL
+
+
+#url resolver
+from django.core.urlresolvers import reverse
 class RestaurantLocation(models.Model):
     #adding users for data owning
     owner        = models.ForeignKey(User)
@@ -36,6 +41,11 @@ class RestaurantLocation(models.Model):
 
     def __str__(self):
         return(self.name)
+
+    #reverse url patter
+    def get_absolute_url(self):
+        # return f"/restaurants/{self.slug}"#bad way can be useless if url changed in urls.py
+        return reverse("restaurant-detail", kwargs={"slug": self.slug})
 
     #with this we can sue object.title now
     @property

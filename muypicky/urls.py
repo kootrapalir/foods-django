@@ -51,23 +51,23 @@ urlpatterns = [
     # url(r'^$', HomeView.as_view()),
 
 
-    url(r'^restaurants/$', RestaurantListView.as_view()),
+    url(r'^restaurants/$', RestaurantListView.as_view(), name='restaurants'),
     #makinglist dynamic with REGX
     #here the slug is transferred to SearchResturantlistview
     # url(r'^restaurants/(?P<slug>\w+)/$', RestaurantListView.as_view()),
 
 
     # url that sendds to form page
-    url(r'^restaurants/create/$', restaurant_createview),
+    url(r'^restaurants/create/$', RestaurantCreateView.as_view(), name='restaurants-create'),
 
 
     #for details when you click in each restaurant
-    url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view()),
+    url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view(), name='restaurant-detail'),
 
 
     #if you dont have context but only html to send
     #in templete name send html file to render
-    url(r'^$', TemplateView.as_view(template_name="home.html")),
-    url(r'^about/$', TemplateView.as_view(template_name = "about.html")),
-    url(r'^contact/$', TemplateView.as_view(template_name = "contact.html")),
+    url(r'^$', TemplateView.as_view(template_name="home.html"), name="home"),
+    url(r'^about/$', TemplateView.as_view(template_name = "about.html"), name='about'),
+    url(r'^contact/$', TemplateView.as_view(template_name = "contact.html"), name='contact'),
 ]
