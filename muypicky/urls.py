@@ -32,8 +32,16 @@ from restaurants.views import(
     RestaurantCreateView
 )
 
+
+#default login view
+from django.contrib.auth.views import LoginView
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+
+
+    #default login view
+    url(r'^login/$', LoginView.as_view(), name="login"),
 
     #getting home function to default url from browser
     #absolute home url 127.0.0.1:8000
@@ -50,7 +58,7 @@ urlpatterns = [
 
 
     # url that sendds to form page
-    url(r'^restaurants/create/$', RestaurantCreateView.as_view()),
+    url(r'^restaurants/create/$', restaurant_createview),
 
 
     #for details when you click in each restaurant

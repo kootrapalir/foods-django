@@ -54,6 +54,13 @@ from django.db.models import Q
 #to use form to take user input
 from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 
+#for logon required to do things
+from django.contrib.auth.decorators import login_required
+# for class based view
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+@login_required(login_url = "/login/")
 def  restaurant_createview(request):
     #GET and POST according to what method is in you  html form ..default is get
     #with POST with {% csrf_token %} to make it secure
@@ -157,10 +164,13 @@ class RestaurantDetailView(DetailView):
     #     obj = get_object_or_404(RestaurantLocation, id=rest_id)  #id or pk
     #     return obj
 
-class RestaurantCreateView(CreateView):
+
+#login mixin for user authencation
+class RestaurantCreateView(LoginRequiredMixin, CreateView):
     form_class = RestaurantLocationCreateForm
     template_name = "restaurants/form.html"
     success_url = "/restaurants/"
+    login_url = "/login/"
 
     #Createview auto run this method
     #form_valid is being overwritten...the default one autosaves the instance of the form..so we dont have to in here

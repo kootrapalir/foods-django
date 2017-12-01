@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "restaurants",
 ]
 
+#defalult login view
+# LOGIN_URL = "/login.html"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
