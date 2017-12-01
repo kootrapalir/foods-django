@@ -56,6 +56,11 @@ urlpatterns = [
     #to send to restaurants.url and let restaurants.url handel it from there for restaurants/url views
     url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
 
+
+    url(r'^items/', include('menus.urls', namespace='menus')),
+
+
+
     #
     # # url(r'^restaurants/$', RestaurantListView.as_view(), name='restaurants'),
     # #makinglist dynamic with REGX

@@ -14,7 +14,7 @@ def clean_email(value):
     if ".edu" in email:
         raise ValidationError(".edu emial ownt work")
 
-CATEGORIES = ['Mandir', 'Aashram', 'Canteen']
+CATEGORIES = ['Mandir', 'Aashram', 'Both']
 def validate_category(value):
     cat = value.capitalize()
     if not value in CATEGORIES and not cat in CATEGORIES:
