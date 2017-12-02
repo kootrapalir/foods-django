@@ -23,8 +23,36 @@ User = settings.AUTH_USER_MODEL
 
 #url resolver
 from django.core.urlresolvers import reverse
+
+
+from django.db.models import Q
+
+
+class RestaurantLocationQuerySet(models.query.QuerySet):
+    def search(self, query):    #restaurantLocation.objects.all().search(query) and RestaurantLocation.objects.filter(something).search()
+        if query:
+            query.strip()
+            return self.filter(
+                Q(name__icontains=query)|
+                Q(location__icontains=query)|
+                Q(category__icontains=query)|
+                Q(location__iexact=query)|
+                Q(category__iexact=query)|
+                Q(item__name__icontains=query)
+            ).distinct()
+        # else:
+        return self
+
+
+class RestaurantLocationManager(models.Manager):
+    def get_queryset(self):
+        return RestaurantLocationQuerySet(self.model, using=self._db)
+
+    def search(self, query):    #restaurantLocation.objects.search()
+        return self.get_queryset().search(query)
+
 class RestaurantLocation(models.Model):
-    #adding users for data owning
+    #adding users for data own ing
     owner       = models.ForeignKey(User)
     name        = models.CharField(max_length=120)
     location    = models.CharField(max_length=120, null=True, blank=False)
@@ -33,6 +61,8 @@ class RestaurantLocation(models.Model):
     # but its added automatically
     timestamp   = models.DateTimeField(auto_now_add=True)
     updated     = models.DateTimeField(auto_now=True)
+
+    objects = RestaurantLocationManager()
 
     #making slug bull and blank inly here...otherwise create it in start and make it unique=True
     slug        = models.SlugField(null=True, blank=True)
