@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #adding the app name...usually done after making models or at first
     "restaurants",
     "menus",
+    "profiles",
 ]
 
 #defalult login view
