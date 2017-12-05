@@ -11,6 +11,20 @@ from .forms import RegisterForm
 from .models import Profile
 User = get_user_model()
 
+def activate_user_view(request, code=None, *args, **kwargs):
+    if code:
+        qs = objects.filter(activation_key=code)
+        if qs.exists() and qs.count() == 1:
+            profile = qs.first()
+            if not act_obj.activated:
+                user_ = profile.user
+                user_.is_active = True
+                profile.activated = True
+                profile.save()
+                return redirect("/login")
+    # invalid code
+    return redirect("/login")
+
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'registration/register.html'

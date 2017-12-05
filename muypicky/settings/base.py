@@ -129,6 +129,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+EMAIL_HOST = 'smtp.mailtrap.io'
+EMAIL_HOST_USER = 'fda17a5c93a03c'
+EMAIL_HOST_PASSWORD = '8fe4092d3072b2'
+EMAIL_PORT = '2525'
+
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 

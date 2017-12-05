@@ -40,7 +40,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.conf.urls import include
 
 
-from profiles.views import ProfileFollowToggle, RegisterView
+from profiles.views import ProfileFollowToggle, RegisterView, activate_user_view
 
 from menus.views import HomeView
 
@@ -56,6 +56,8 @@ urlpatterns = [
 
 
     url(r'^register/$', RegisterView.as_view(), name="register"),
+
+    url(r'^activate/(?P<code>[a-z0-9].*)/$', activate_user_view, name="activate"),
 
     #getting home function to default url from browser
     #absolute home url 127.0.0.1:8000
