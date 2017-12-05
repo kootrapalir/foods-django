@@ -34,10 +34,15 @@ from django.views.generic.base import TemplateView
 
 
 #default login view
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 
 #to bring urls from restaurants.url to here
 from django.conf.urls import include
+
+
+from profiles.views import ProfileFollowToggle, RegisterView
+
+from menus.views import HomeView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -45,6 +50,12 @@ urlpatterns = [
 
     #default login view
     url(r'^login/$', LoginView.as_view(), name="login"),
+
+
+    url(r'^logout/$', LogoutView.as_view(), name="logout"),
+
+
+    url(r'^register/$', RegisterView.as_view(), name="register"),
 
     #getting home function to default url from browser
     #absolute home url 127.0.0.1:8000
@@ -56,8 +67,11 @@ urlpatterns = [
     #to send to restaurants.url and let restaurants.url handel it from there for restaurants/url views
     url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
 
+    url(r'^profile-follow/$', ProfileFollowToggle.as_view(), name='follow'),
     url(r'^u/', include('profiles.urls', namespace='profile')),
+
     url(r'^items/', include('menus.urls', namespace='menus')),
+
 
 
 
@@ -79,7 +93,7 @@ urlpatterns = [
 
     #if you dont have context but only html to send
     #in templete name send html file to render
-    url(r'^$', TemplateView.as_view(template_name="home.html"), name="home"),
+    url(r'^$', HomeView.as_view(), name="home"),
     url(r'^about/$', TemplateView.as_view(template_name = "about.html"), name='about'),
     url(r'^contact/$', TemplateView.as_view(template_name = "contact.html"), name='contact'),
 ]

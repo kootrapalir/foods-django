@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
-{% block head_title %} {{ user.username }}|{{ block.super }} muypicky.com{% endblock head_title %}
+{% block head_title %}{{ user.username }} | {{ block.super}}{% endblock head_title %}
 
 {% block content %}
-
 <h1>{{ user.username }}</h1>
-<form class="form" method="GET" action=".">
-    <input type="text" placeholder="Search.." name="q" value="{{ request.GET.q }}">
-    <button class="btn btn-default" type='submit'>Search</button>
+<p>{% include 'profiles/snippet/follow_form.html' with username=user.username is_following=is_following %}</p>
+
+
+<form class='form' method='GET' action='.'>
+<input type='text' placeholder="Search.." name='q' value='{{ request.GET.q }}'>
+<button class='btn btn-default' type='submit'>Search</button>
 </form>
 <hr/>
 {% if locations %}
 {% for rest in locations %}
-    <div class="row">
-    <div class="col-sm-12">
-        <div class="thumbnail">
+    <div class='row'>
+    <div class='col-sm-12'>
+        <div class='thumbnail'>
             <h4>{{ rest.title }}</h4>
             <p><a href='{{ request.path}}?q={{ rest.location }}'>{{ rest.location }}</a> |
             <a href='{{ request.path}}?q= {{ rest.category }}'> {{ rest.category }}</a>
@@ -34,10 +36,11 @@
         </div>
     </div>
     </div>
+
 {% endfor %}
 
 {% else %}
-<p class='lead'> No Item </p>
+<p class='lead'>No Items Found</p>
 {% endif %}
 
 {% endblock %}
